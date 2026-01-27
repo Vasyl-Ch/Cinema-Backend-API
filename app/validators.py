@@ -16,3 +16,18 @@ def validate_password_strength(password: str) -> str:
             raise ValueError(msg)
 
     return password
+
+
+def check_password_complexity(password: str) -> bool:
+    if len(password) < 8:
+        return False
+    if not re.search(r"[A-Z]", password):
+        return False
+    if not re.search(r"[a-z]", password):
+        return False
+    if not re.search(r"\d", password):
+        return False
+    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+        return False
+    return True
+
