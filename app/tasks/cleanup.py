@@ -4,10 +4,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.db.session import AsyncSessionLocal
 from app.models.accounts import ActivationToken
+from app.core.config import settings
 from datetime import datetime
 
 
-app = Celery("tasks", broker="redis://localhost:6379/0")
+app = Celery("tasks", broker=settings.REDIS_URL)
 
 
 async def cleanup_expired_tokens_async(session: AsyncSession):
