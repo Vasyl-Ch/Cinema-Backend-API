@@ -1,114 +1,122 @@
-🎬 Online Cinema API
-Online Cinema API is a backend solution built with FastAPI, designed to handle the complete workflow of an online cinema —
-from exploring the movie catalog to managing orders, processing payments, and handling webhooks.
+# 🎬 Cinema Backend API
 
-It is structured as a production-grade backend service, featuring authentication, role-based permissions, automated testing, documentation, and modern DevOps integration.
+**Cinema Backend API** is a modern backend for an online cinema, implemented with **FastAPI**.
 
-🔑 Core Features
-Secure authentication and authorization using JWT
+The project provides a complete set of features for managing movie catalog, shopping cart, orders, payments, and user administration.
 
-Role-based access control (USER / MODERATOR / ADMIN)
+## 🚀 Key Features
 
-Movie catalog management (titles, genres, certifications)
+- Secure authentication and authorization via **JWT**
+- Role-based access control (**USER** / **MODERATOR** / **ADMIN**)
+- Movie catalog management (titles, genres, age ratings)
+- Complete shopping cart and order lifecycle
+- Payment system integration (Stripe and others)
+- Webhook processing (live + mock mode)
+- Email notifications
+- Automatic API documentation generation (OpenAPI/Swagger)
+- Docker and Docker Compose support
+- Automated tests + coverage report
 
-Shopping cart functionality
+## 📦 Technology Stack
 
-Full order lifecycle management
+| Component              | Technology                          |
+|------------------------|-------------------------------------|
+| Web framework          | FastAPI                             |
+| ORM (async)            | SQLAlchemy 2.0+                     |
+| Database (prod)        | PostgreSQL                          |
+| Database (tests)       | SQLite                              |
+| Payment system         | Stripe (or similar)                 |
+| Containerization       | Docker + Docker Compose             |
+| Dependency management  | Poetry                              |
+| Testing                | pytest + pytest-asyncio             |
+| Migrations             | Alembic                             |
 
-Payment and refund support via Stripe
+## 🏗️ Project Structure
 
-Stripe webhook handling (real + mock modes)
+## 📡 Quick Start (Local Development)
 
-Email notifications
+1. Clone the repository
 
-Comprehensive test coverage
+```bash
+git clone https://github.com/Vasyl-Ch/Cinema-Backend-API.git
+cd Cinema-Backend-API
+git checkout developing
+```
 
-Dependency management with Poetry
+2. Create and configure .env
+```bash
+cp .env.sample .env
+```
 
-Containerization with Docker & Docker Compose
+Make sure to fill in:
+DATABASE_URL=postgresql://user:password@localhost:5432/cinema
+SECRET_KEY=your-very-long-random-secret-key
+STRIPE_API_KEY=sk_test_...
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your@gmail.com
+EMAIL_PASSWORD=your-app-password
 
-CI/CD pipelines powered by GitHub Actions
+3. Start PostgreSQL and apply migrations
+# create database (if not yet created)
+createdb cinema
 
-Complete API documentation with Swagger / OpenAPI 3.0
+# apply migrations
+alembic upgrade head
 
-🏗️ Architecture Overview
-FastAPI — REST API framework
+4. Install dependencies and run
+```bash
+poetry install
+poetry shell
+```
+# start with auto-reload
+uvicorn app.main:app --reload
 
-SQLAlchemy (async) — ORM layer
+Done! API is available at:
+→ http://localhost:8000
+→ Documentation: http://localhost:8000/docs
 
-PostgreSQL — production database
+🧪 Testing
 
-SQLite — lightweight test database
-
-Stripe — payment gateway integration
-
-Docker & Docker Compose — containerized deployment
-
-Poetry — dependency/environment management
-
-Pytest — automated testing framework
-
-GitHub Actions — CI/CD automation
-
-👥 User Roles
-Role	Permissions
-USER	Browse catalog, manage cart, place orders
-MODERATOR	Manage movies and payment operations
-ADMIN	Full system access, including user and role management
-📖 API Documentation
-The API is fully documented with OpenAPI 3.0 (Swagger).
-
-Each endpoint includes:
-
-concise summary and detailed description
-
-request/response schemas
-
-query and path parameters
-
-expected HTTP responses
-
-role-based access restrictions
-
-Documentation Access Control
-Swagger UI can be restricted to authenticated users via FastAPI configuration or middleware.
-
-🧪 Testing & Coverage
-Tools
+# regular test run
+```bash
 pytest
+```
+# with coverage
+```bash
+pytest --cov=app
+```
+🐳 Running via Docker Compose
+# first run / rebuild
+```bash
+docker compose up --build
+```
+# stop
+```bash
+docker compose down
+```
 
-pytest-asyncio
+🔐 Authentication
 
-httpx.AsyncClient
+Register user /auth/register
+Get token /auth/login
+Use header:
 
-coverage
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
-Modules Covered
-Module	Functionality Tested
-Auth	registration, login, password reset/change
-Movies	CRUD, filtering, role restrictions
-Certifications	creation (ADMIN only)
-Cart	add / remove / clear
-Orders	create, cancel, list
-Payments	create, refund, mock success
-Webhooks	mock Stripe webhook
-Users	admin-only user listing
-✅ Positive and negative scenarios
-✅ Role/permission enforcement
-✅ Tests isolated from production database
+📘 API Documentation
 
-🐳 Docker & Compose Setup
-Supported Services
-FastAPI
+Swagger UI → http://localhost:8000/docs
+ReDoc      → http://localhost:8000/redoc
 
-PostgreSQL
+💡 Useful Development Commands
+```bash
+# new migration
+alembic revision --autogenerate -m "added payment status field"
 
-Redis
+# apply migrations
+alembic upgrade head
 
-Celery
-
-MinIO
-
-▶️ Quick Start
-bash
-docker-compose up --build
+# rollback last migration
+alembic downgrade -1
+```
