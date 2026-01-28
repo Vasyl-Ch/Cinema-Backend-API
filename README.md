@@ -49,13 +49,21 @@ cp .env.sample .env
 ```
 
 Make sure to fill in:
+
 DATABASE_URL=postgresql://user:password@localhost:5432/cinema
+
 SECRET_KEY=your-very-long-random-secret-key
+
 STRIPE_API_KEY=sk_test_...
+
 EMAIL_HOST=smtp.gmail.com
+
 EMAIL_PORT=587
+
 EMAIL_USER=your@gmail.com
+
 EMAIL_PASSWORD=your-app-password
+
 
 3. Start PostgreSQL and apply migrations
 # create database (if not yet created)
