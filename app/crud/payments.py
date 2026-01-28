@@ -21,7 +21,6 @@ async def create_payment(db: AsyncSession, order_id: int):
     if not order or order.status != OrderStatusEnum.PENDING:
         return None
 
-    # create a Stripe payment intent
     intent = stripe.PaymentIntent.create(
         amount=int(order.total_amount * 100),  # pence
         currency="usd",
@@ -46,7 +45,7 @@ async def create_payment(db: AsyncSession, order_id: int):
         db.add(db_item)
     await db.commit()
 
-    return db_payment, intent.client_secret  # for the front
+    return db_payment, intent.client_secret
 
 
 async def confirm_payment(db: AsyncSession, payment_id: str):
@@ -58,8 +57,7 @@ async def confirm_payment(db: AsyncSession, payment_id: str):
         order.status = OrderStatusEnum.PAID
         await db.commit()
 
-        # send confirmation email
-        user_email = order.user.email  # We assume that Order.user contains an email address.
+        user_email = order.user.email
         body = f"Order: {order.id}, Total: {payment.amount} USD."
         await send_email("Confirmation of payment", [user_email], body)
 
