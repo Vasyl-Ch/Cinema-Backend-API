@@ -63,8 +63,8 @@ def run_migrations_offline() -> None:
 def run_migrations_online():
     connectable = engine_from_config(
         {
-            "sqlalchemy.url": settings.DATABASE_URL.replace("+aiosqlite", "")
-        #   "sqlalchemy.url": settings.DATABASE_URL.replace("+asyncpg", "") /for postgres db
+            # "sqlalchemy.url": settings.DATABASE_URL.replace("+aiosqlite", "")
+            "sqlalchemy.url": settings.DATABASE_URL.replace("+asyncpg", "") #/for postgres db
         },
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
