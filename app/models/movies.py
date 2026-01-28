@@ -75,7 +75,7 @@ class Movie(Base):
     meta_score = Column(Float, nullable=True)
     gross = Column(Float, nullable=True)
     description = Column(Text, nullable=False)
-    price = Column(Float, nullable=False)  # DECIMAL(10,2) в SQL, но Float для простоты <<<<<< позже изменить
+    price = Column(Float, nullable=False)
     certification_id = Column(Integer, ForeignKey("certifications.id"), nullable=False)
 
     certification = relationship("Certification", back_populates="movies")
